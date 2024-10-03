@@ -22,6 +22,12 @@
 #define _SFC_com_Device_Address                         0x91
 
 
+enum Advanced_Measurments_t
+{
+    Measure_Raw_Flow = 0x00,
+    Measure_Raw_Thermal_Conductivity_With_Closed_Valve = 0x02,
+    Measure_Temperature = 0x10
+};
 
 enum currentCalibrationInfo
 {
@@ -37,12 +43,15 @@ Calibration Information
 class Sensor_SFC6000x  
  { 
     
-    dev = shdlc();
+    shdlc_bus & _bus;
     Stream & serCom;
     public: 
       //Sensor_HMM105(); 
-      uint8_t begin(Stream & Serial_Port_for_RS485,uint8_t Server_Address = 0); 
-      void debug_ini(Stream & Serial_Port); 
+
+    Sensor_SFC6000x(shdlc_bus & bus): _bus{bus} {;};
+
+    uint8_t begin(Stream & Serial_Port_for_RS485,uint8_t Server_Address = 0); 
+    void debug_ini(Stream & Serial_Port); 
 
     float pull_SetPoint();
     uint8_t push_SetPoint(float const value);
@@ -63,6 +72,7 @@ class Sensor_SFC6000x
     uint8_t pull_DevAddress();
     uint8_t push_DevBaudRate(uint32_t Baud);
     uint8_t pull_DevBaudRate();
+    int8_t pull_AdvanceMeasuremnt();
 
     pull_Calibration(uint32_t value){
         _send_uint32(uint8_t const Command,uint8_t const subCommand, value);
@@ -71,7 +81,7 @@ class Sensor_SFC6000x
 
 
 
-    pull_currentCalibrationInfo()
+    pull_currentCalibrationInfo( Advanced_Measurments_t measurement);
 
 
     pull_Calibration(){

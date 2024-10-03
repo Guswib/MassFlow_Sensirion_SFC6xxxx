@@ -4,25 +4,11 @@
 #include <stdint.h>
 #include <arduino.h>
 
+#include <SHDLC.h>
 
-constexpr uint8_t SHDLC_start = (uint8_t)0x7E
 
 
-class shdlc_bus
-{
-    uint8_t device_address = 0;
-    stream & serCom;
-
-    shdlc_bus(stream & Serial_Com):
-        serCom{Serial_Com}
-        {device_address=address;};
-
-    void begin()
-    {
-        serCom.begin(115200);
-    }
-
-    void push(stream & sercom, uint8_t command, uint16_t const TXdataSize, uint8_t const * TXdata )
+void shdlc_bus::push(uint8_t device_address, uint8_t command, uint16_t const TXdataSize, uint8_t const * TXdata )
     {
         //Start
         error=0;
@@ -42,7 +28,7 @@ class shdlc_bus
         sercom.write(SHDL_start); 
     };
 
-    uint8_t pull(stream & sercom, uint8_t const * RXdata, uint8_t const RXdataSize)
+uint8_t shdlc_bus::pull(uint8_t device_address, uint8_t const * RXdata, uint8_t const RXdataSize)
         {
         error=0;
         unsigned long start = millis();
@@ -89,7 +75,7 @@ class shdlc_bus
         return error;
     };
 
-    void send_single_with_stuffing(stream & serCom, uint8_t data)
+void shdlc_bus::send_single_with_stuffing(uint8_t data)
     {
         uint8_t a = 0x7D;
         uint8_t b = 0;
@@ -118,7 +104,7 @@ class shdlc_bus
         }
     };
 
-    uint8_t read_single_with_stuffing(stream & serCom, uint8_t & data)
+uint8_t shdlc_bus::read_single_with_stuffing(uint8_t & data)
     {
         unsigned long start = millis();
         unsigned long timeout = 100;
@@ -151,7 +137,7 @@ class shdlc_bus
         return error;
     };
 
-    uint8_t calc_checkSum(uint8_t * Frame, uint16_t end_index)
+uint8_t shdlc_bus::calc_checkSum(uint8_t * Frame, uint16_t end_index)
     {
         uint32_t sum = 0;
         for(int i=0;i<end_index;i++){
@@ -161,8 +147,3 @@ class shdlc_bus
         return Checksum;
     }
     
-};
-
-
-
-#endif

@@ -36,6 +36,7 @@ enum currentCalibrationInfo
 Calibration Information
 class Sensor_SFC6000x  
  { 
+    
     dev = shdlc();
     Stream & serCom;
     public: 

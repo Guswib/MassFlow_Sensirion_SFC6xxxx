@@ -13,9 +13,9 @@ class shdlc_bus
     uint8_t device_address = 0;
     stream & serCom;
 
-    shdlc_bus(stream & Serial_Com, uint8_t address){serCom(Serial_Com)}
-    
-    {device_address=address;};
+    shdlc_bus(stream & Serial_Com):
+        serCom{Serial_Com}
+        {device_address=address;};
 
     void begin()
     {

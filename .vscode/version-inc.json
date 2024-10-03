@@ -1,0 +1,53 @@
+{
+	"version": "1.0.20",
+	"dateTime": {
+		"year": 2023,
+		"month": 4,
+		"day": 19,
+		"hours": 8,
+		"minutes": 17,
+		"seconds": 50
+	},
+	"last_version": "1.0.19",
+	"last_dateTime": {
+		"year": 2023,
+		"month": 3,
+		"day": 31,
+		"hours": 15,
+		"minutes": 11,
+		"seconds": 52
+	},
+	"json-files": [
+		{
+			"Filename": "library.json",
+			"FileLocation": "${workspaceFolder}",
+			"Enable": true
+		},
+		{
+			"Filename": "File2.json",
+			"FileLocation": "${workspaceFolder}",
+			"Enable": false
+		}
+	],
+	"txt-files": [
+		{
+			"Filename": "library.properties",
+			"FileLocation": "${workspaceFolder}",
+			"Enable": true,
+			"Patterns": [
+				"version=V-INC"
+			]
+		},
+		{
+			"Filename": "File2.ABC",
+			"FileLocation": "${workspaceFolder}",
+			"Enable": false,
+			"Patterns": [
+				"File Version...: V-INC",
+				"Product version: v-inc",
+				"Last Modification: ${MONTHTEXTL} ${DATE} ${YEAR4}",
+				"     At: ${H12}:${MIN}:${SEC} ${AMPMU}"
+			]
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"name": "ECi SystemLogger",
+	"keywords": "Potentiostat",
+	"description": "This is a library for abstracting away a Potentiostat.\n",
+	"authors": [
+		{
+			"name": "Gustav Wiberg",
+			"email": "g.wiberg@nordicec.com",
+			"maintainer": true
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Guswib/ECi_SystemLogger"
+	},
+	"version": "1.1.1",
+	"frameworks": "arduino",
+	"platforms": "*"
+}

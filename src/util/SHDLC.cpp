@@ -143,7 +143,7 @@ uint8_t shdlc_bus::calc_checkSum(uint8_t * Frame, uint16_t end_index)
         for(int i=0;i<end_index;i++){
             sum += Frame[i];
             }
-        uint8_t Checksum = ! lowByte(sum);
-        return Checksum;
+        uint8_t Checksum =  lowByte(sum);
+        return ~Checksum;
     }
     

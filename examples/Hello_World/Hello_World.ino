@@ -21,14 +21,18 @@ uint8_t rx_buffer[bufferSize];
 uint8_t chechNum_calc(const uint8_t * buffer, size_t size)
 {
     uint32_t sum = 0;
+    
     for(int i=0;i<size; i++){
         sum += buffer[i];
     }
-   // Serial.print("\tsm ");
-   // Serial.print(sum,BIN);
-   // Serial.print(" ");
-    uint8_t ret = (uint8_t)(sum & (0xff));
-   // Serial.print(~ret,BIN);Serial.print(" ");
+    Serial.print("\tsm(");
+    Serial.print(size);
+    Serial.print(") ");
+    Serial.print(sum);
+    Serial.print(" ");
+    uint8_t ret = ((uint8_t)(sum & (0xff)));
+    //lowByte(w)
+    //Serial.print(~ret & (0xff),BIN);Serial.print(" ");
     return ~ret;
 }
 void send(const uint8_t * buffer, size_t size){
@@ -60,8 +64,8 @@ int16_t read_until(){
       while(Serial1.available()== 0 && (millis()-start)<1000);
       if(Serial1.available()== 0) {return -1;
       }else{
-      char cChar = Serial1.read();
-      if(cChar == startChar){return i;}
+      uint8_t cChar = Serial1.read();
+      if(cChar == (uint8_t)startChar){return i;}
       else{rx_buffer[i]= cChar;}
       }
   }
@@ -73,7 +77,7 @@ void RX(){
   //while(Serial1.available()== 0 && start-millis<1000)
     int16_t nr_bytes = read_until(); 
     // Serial1.readBytesUntil(startChar, rx_buffer,bufferSize);
-    Serial.print("Bytes: ");
+    Serial.print("1.Bytes: ");
     Serial.print(nr_bytes);
     if(nr_bytes<0){
       Serial.println("Timed out");
@@ -93,7 +97,7 @@ void RX(){
         // Serial1.readBytesUntil(endChar, rx_buffer, bufferSize); 
         if(nr_bytes>0){
           
-            Serial.print("Bytes: ");
+            Serial.print(" 2.Bytes: ");
             Serial.print(nr_bytes);
           
             Serial.print("\tDevAdr:0x");
@@ -118,7 +122,7 @@ void RX(){
             Serial.print("\tCRC: ");
             Serial.print(rx_buffer[nr_bytes-1],HEX);
             Serial.print("\tCRC: ");
-            Serial.print(chechNum_calc(rx_buffer, nr_bytes-2),HEX);
+            Serial.print((uint8_t)(chechNum_calc(rx_buffer, nr_bytes-1))& (0xff),HEX);
             Serial.println();
             
         }else{

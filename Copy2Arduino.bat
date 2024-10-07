@@ -1,9 +1,10 @@
 @echo off
 ::
-::
-set Folder=ECi_MFC_SFC6xxxx
+::C:\Users\gustav.wiberg\Documents\GitHub\ECi\MassFlow_Sensiron_SFC6xxxx\Copy2Arduino.bat
+set Folder=MassFlow_Sensiron_SFC6xxxx
+
 echo %Folder%
-set SRCPath=%UserProfile%\Documents\GitHub\%Folder%
+set SRCPath=%UserProfile%\Documents\GitHub\ECi\%Folder%
 set SRCPath_SRC=%SRCPath%\src
 set SRCPath_EXA=%SRCPath%\examples
 set ArduinoLibPath=%UserProfile%\Documents\Arduino\libraries\%Folder%
@@ -25,6 +26,7 @@ echo %ArduinoLibPath_SRC%
 echo %SRCPath%
 :: %ArduinoLibPath_SRC%\*.*
 ::
+echo "copying: %SRCPath%\lib*.*"
 copy "%SRCPath%\lib*.*" "%ArduinoLibPath%"
 copy "%SRCPath_SRC%\*.*" "%ArduinoLibPath_SRC%"
 ::copy "%SRCPath_SRC%\server\*.*" "%ArduinoLibPath_SRC%\server"

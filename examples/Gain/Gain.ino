@@ -1,6 +1,10 @@
 #include <SensirionCore.h>
 #include <stdint.h>
 
+#include "Device_info.h"
+#include "Calibration.h"
+#include "temperature.h"
+#include "flow.h"
 uint8_t txBuffer[256];
 uint8_t rxBuffer[256];
 
@@ -9,8 +13,8 @@ uint8_t rxBuffer[256];
 
 char errorMessage[50];
 
-void get_Flow(){
-  Serial.print("\nFlow:");
+void get_Flow3(){
+  Serial.print("\nFlow:/");
    SensirionShdlcTxFrame txFrame(txBuffer, 256);
   int command=0x08;
   uint16_t error = txFrame.begin(0x08, 0, 1);
@@ -18,18 +22,21 @@ void get_Flow(){
   error |= txFrame.finish();
   error |= SensirionShdlcCommunication::sendFrame(txFrame, Serial1);
   SensirionShdlcRxFrame rxFrame(rxBuffer, 256);
-  error = SensirionShdlcCommunication::receiveFrame(rxFrame, Serial1, 1000000);
+  //error = SensirionShdlcCommunication::receiveFrame(rxFrame, Serial1, 1000000);
+  delay(200);
   for(int i=0; i<2;i++)
     {
+      Serial.print("PART"); Serial.print(i);Serial.print("--");Serial.println(Serial1.available());
     error = SensirionShdlcCommunication::receiveFrame(rxFrame, Serial1, 1000000);
     if(rxFrame.getCommand()== command)
     {if(error){
+            char errorMessage[50];
           Serial.print("Gerror 0x");
           Serial.print(error,HEX);Serial.print(": ");
           errorToString(error, errorMessage,50);
           Serial.println(errorMessage);  }
         else{
-          Serial.print("\tGAINvalue:");
+          Serial.print("\tFlow_value:");
     float data;
     rxFrame.getFloat(data);
     Serial.println(data);
@@ -46,21 +53,21 @@ uint16_t error = txFrame.begin(0x91, 0, 0);
     error |= SensirionShdlcCommunication::sendFrame(txFrame, Serial1);
     SensirionShdlcRxFrame rxFrame1(rxBuffer, 256);
    error = SensirionShdlcCommunication::receiveFrame(rxFrame1, Serial1, 1000000);
-   for(int i=0;i<12;i++){
-   Serial.print(", 0x");
-    Serial.print(rxBuffer[i]);
-    }
+ //  for(int i=0;i<12;i++){
+ //  Serial.print(", 0x");
+ //   Serial.print(rxBuffer[i]);
+ //   }
     Serial.println();
-    Serial.println("Part2");
+    Serial.print("Part2: ");
    SensirionShdlcRxFrame rxFrame2(rxBuffer, 256);
  error = SensirionShdlcCommunication::receiveFrame(rxFrame2, Serial1, 1000000);
-    for(int i=0;i<12;i++){
-   Serial.print(", 0x");
-    Serial.print(rxBuffer[i]);
-    }
+  //  for(int i=0;i<12;i++){
+  // Serial.print(", 0x");
+  //  Serial.print(rxBuffer[i]);
+  //  }
   uint32_t data;
   rxFrame2.getUInt32(data);
-  Serial.print("\nBUAD:");Serial.println(data);
+  Serial.print("\n\tBUAD:");Serial.println(data);
 }
 
 void get_Gain(){
@@ -173,4 +180,11 @@ get_Gain2();
 delay(1000);
 get_Baudrate();
 get_Flow();
+get_Temperature();
+get_nr_of_calibration();
+get_current_calibration_GasID();
+get_current_calibration_GasUNIT();
+get_current_calibration_GasFullScale();
+get_DeviceInfo_ProductType();
+get_DeviceInfo_ProductName();
 }

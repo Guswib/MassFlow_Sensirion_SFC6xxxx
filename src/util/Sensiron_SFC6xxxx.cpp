@@ -8,6 +8,16 @@
 #include "Sensiron_SFC6xxxx.h"
 
 
+enum r_commands
+{
+    MeasureFlow = 0x00,
+    Measure_Raw_Thermal_Conductivity_With_Closed_Valve = 0x02,
+    Measure_Temperature = 0x10
+};
+
+enum w_command_float{
+
+}
 
 
 float Sensor_SFC6000x::pull_Measure_Temperature(float & value)

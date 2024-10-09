@@ -4,6 +4,11 @@
    char errorMessage[50];
 Sensor_SFC6000 sen;
 
+void printBuf(){
+   Serial.println();
+   while(Serial1.available()){Serial.print(", 0x");Serial.print(Serial1.read(),HEX);} 
+   Serial.println();
+}
 
 void error_check(uint16_t error){
  if(error){
@@ -26,12 +31,29 @@ void setup() {
     delay(2000);   
      uint16_t error =0; 
 
-    Serial.println("Hello World--------------");
+    Serial.println("\n\n\n\n\n////////////////////////////////\nHello World------------------------------------");
 
    while(Serial1.available())Serial1.read();
+  Serial.print("SetValue:  ");
+    sen.set(set_command_float_t::SetValue, 15.4);
+     error = sen.read();
+      error = sen.read();
+    printBuf();
+    // sen.read();
+    //sen.read();
+      Serial.print("Gain:  ");
+    sen.set(set_command_float_t::Gain, 1.523);
+     error = sen.read();
+      error = sen.read();
+ printBuf();
+   Serial.print("ProductType:  ");
+    sen.pull_devInfo(deviceInfo_commands_t::Product_Type,Serial);
+    sen.pull_devInfo(deviceInfo_commands_t::Product_Name,Serial);
+    sen.pull_devInfo(deviceInfo_commands_t::Article_Code,Serial);
+    sen.pull_devInfo(deviceInfo_commands_t::Serial_Number,Serial);
 
-    sen.set(set_command_float_t::wSetValue, 15.4);
-    sen.set(set_command_float_t::wGain, 1.523);
+        Serial.println("\n\nDONE INI------------------------------------");
+
 }
 
 measure_commands_t m[] ={
@@ -58,10 +80,12 @@ void loop() {
       Serial.print("loop:");
        Serial.print(i);
        Serial.print(" com:");
-       Serial.print(m[i],HEX);
+       Serial.print(static_cast<uint16_t>(m[i]),HEX);
         Serial.println();
  error = sen.request(m[i]);
     error_check(error);
+    //if(error == 0x206) break;
+    //if(error == 0) break;
     delay(200);
     Serial.print(Serial1.available());
     

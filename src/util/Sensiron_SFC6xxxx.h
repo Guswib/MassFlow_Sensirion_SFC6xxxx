@@ -20,6 +20,7 @@
 #define _SFC_com_Calibration                            0x45
 #define _SFC_com_Device_Address                         0x90
 #define _SFC_com_Device_Address                         0x91
+#define _SFC_com_DeviceInfo                             0xD0
 
 
 enum Advanced_Measurments_t

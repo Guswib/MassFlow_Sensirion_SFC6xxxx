@@ -1,5 +1,5 @@
 
-#include "Sensiron_SFC6xxxx.h"
+#include "Sensirion_SFC6xxxx.h"
 
 
 #include <Arduino.h>

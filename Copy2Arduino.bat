@@ -1,7 +1,7 @@
 @echo off
 ::
 ::C:\Users\gustav.wiberg\Documents\GitHub\ECi\MassFlow_Sensiron_SFC6xxxx\Copy2Arduino.bat
-set Folder=MassFlow_Sensiron_SFC6xxxx
+set Folder=MassFlow_Sensirion_SFC6xxxx
 
 echo %Folder%
 set SRCPath=%UserProfile%\Documents\GitHub\ECi\%Folder%

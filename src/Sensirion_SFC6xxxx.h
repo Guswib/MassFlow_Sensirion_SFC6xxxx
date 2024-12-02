@@ -96,6 +96,8 @@ class Sensor_SFC6000
     uint16_t read (uint8_t * buff = nullptr, size_t maxBytes = 0);
     uint16_t set(set_command_float_t command, float value);
     uint16_t set(set_command_int_t command, uint32_t value);
+    uint16_t device_reset();
+    
 
     uint16_t pull_devInfo(deviceInfo_commands_t command, Stream & serCom);
 

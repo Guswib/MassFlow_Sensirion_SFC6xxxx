@@ -9,7 +9,9 @@
 
 // a MOSI FRAME : DEV_adr, CMD, Length, TX_Data... , CHK
 //a  MISO FRAME : DEV_adr,CMD,STATE, Length, RX_Data..., CHK,
-uint8_t Get_SetPointFrame[] = {dev_adr, 0x08, 0x01, 0x01} ;
+uint8_t Get_SetPointFrame[] = {dev_adr, 0x00, 0x01, 0x01} ;
+uint8_t Get_SetPointFrame2[] = {dev_adr, 0x08, 0x01, 0x01} ;
+uint8_t resetDevice[] = {dev_adr, 0xD3, 0x0} ;
 
 #define bufferSize 50
 
@@ -61,7 +63,7 @@ void send(const uint8_t * buffer, size_t size){
 int16_t read_until(){
   unsigned long start = millis();
   for(uint8_t i=0;i<bufferSize ;i++){
-      while(Serial1.available()== 0 && (millis()-start)<1000);
+      while(Serial1.available()== 0 && (millis()-start)<2000);
       if(Serial1.available()== 0) {return -1;
       }else{
       uint8_t cChar = Serial1.read();
@@ -97,15 +99,16 @@ void RX(){
         // Serial1.readBytesUntil(endChar, rx_buffer, bufferSize); 
         if(nr_bytes>0){
           
-            Serial.print(" 2.Bytes: ");
+            Serial.print("\n2.Bytes: ");
             Serial.print(nr_bytes);
           
-            Serial.print("\tDevAdr:0x");
+            Serial.print("\t|\tDevAdr:0x");
             Serial.print(rx_buffer[0],HEX);
             Serial.print("\tCMD:0x");
             Serial.print(rx_buffer[1],HEX);
             Serial.print("\tSTATE:0x"); 
             Serial.print(rx_buffer[2],HEX);
+             uint8_t state = rx_buffer[2];
             Serial.print("\tLength: ");
             Serial.print(rx_buffer[3]);
             uint8_t length = rx_buffer[3];
@@ -157,11 +160,18 @@ void setup() {
     ;  // wait for serial port to connect. Needed for native USB port only
     }
     delay(2000);
-    Serial.println("Hello World--------------");
+    Serial.println("/////////////////////////////////////////////--------------");
+    Serial.println("/////////////////////////////////////////////--------------");
+    Serial.println("/////////////////////////////////////////////--------------");
 
     send(Get_SetPointFrame,4);
     RX();
     RX();
+
+    send(resetDevice,3);
+    RX();
+    RX();
+    
     
 }
 
@@ -186,6 +196,8 @@ void loop() {
         }
     }*/
     RX();RX();RX();
+    send(Get_SetPointFrame2,4);
+     RX();RX();RX();
 }
 
 

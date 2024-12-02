@@ -122,23 +122,26 @@ uint16_t Sensor_SFC6000::read(uint8_t * buff, size_t maxBytes)
 
             case _SFC_com_controller_Configuration_GAIN:
                 rxFrame.getFloat(gain);
-                  Serial.println("-----------Gain ");
+                Serial.println("-----------Gain ");
                 break;
             case _SFC_com_controller_Configuration_Init_Step:
                 rxFrame.getFloat(init_step);
-                 Serial.println("-----------Init ");
+                Serial.println("-----------InitStep ");
                 break;
             /////////////Advanced_Measurement
 
             case _SFC_com_Advanced_Measurements_Raw_Flow:
                 rxFrame.getUInt16(raw_flow);
+                Serial.println("-----------RawFlow ");
+                break;
             case _SFC_com_Advanced_Measurements_Raw_Thermal_Conductivity:
                 rxFrame.getUInt16(raw_thermal_conductivity);
+                 Serial.print("-----------RawThermalConductivity ");Serial.println(raw_thermal_conductivity);
                 break;
             case _SFC_com_Advanced_Measurements_Temperature:
                 rxFrame.getFloat(temperature);
                 Serial.print("-----------TEMP ");Serial.println(temperature);
-            break;
+                break;
 
             case _SFC_com_DeviceInfo_Product_Type:
             case _SFC_com_DeviceInfo_Product_Name:
@@ -155,6 +158,11 @@ uint16_t Sensor_SFC6000::read(uint8_t * buff, size_t maxBytes)
    
     }
     return error;
+}
+
+uint16_t Sensor_SFC6000::device_reset()
+{
+    _request(0xD3FF);
 }
 
 uint16_t Sensor_SFC6000::pull_devInfo(deviceInfo_commands_t command, Stream & serCom)

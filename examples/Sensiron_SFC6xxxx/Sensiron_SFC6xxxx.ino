@@ -62,21 +62,21 @@ void setup() {
     Serial.println(sen.setValue);
     sen.set(set_command_float_t::Gain, 2.5);
     sen.set(set_command_float_t::Init_Step, 1.2);
-    sen.set(set_command_int_t::Init_Step, 1.2);
+    //sen.set(set_command_int_t::Init_Step, 1.2);
 
         Serial.println("\n\nDONE INI------------------------------------");
 
 }
 
 measure_commands_t m[] ={
-   measure_commands_t::Gain,
-   measure_commands_t::Init_Step,
-   measure_commands_t::Init_Step,
-    measure_commands_t::Temperature,  
+  measure_commands_t::Gain,
+  measure_commands_t::Init_Step,
+  measure_commands_t::Init_Step,
+  measure_commands_t::Temperature,  
   measure_commands_t::ProcessValue,
   measure_commands_t::SetValue,
-    measure_commands_t::Raw_Flow,
-    measure_commands_t::Raw_Thermal_Conductivity
+  measure_commands_t::Raw_Flow,
+  measure_commands_t::Raw_Thermal_Conductivity
 
 
   

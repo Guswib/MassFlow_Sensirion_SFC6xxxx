@@ -4,9 +4,11 @@
    char errorMessage[50];
 Sensor_SFC6000 sen;
 
+#define SFC_SERIAL Serial3
+
 void printBuf(){
    Serial.println();
-   while(Serial1.available()){Serial.print(", 0x");Serial.print(Serial1.read(),HEX);} 
+   while(SFC_SERIAL.available()){Serial.print(", 0x");Serial.print(SFC_SERIAL.read(),HEX);} 
    Serial.println();
 }
 
@@ -23,8 +25,8 @@ void setup() {
   // put your setup code here, to run once:
     Serial.begin(115200);
      
-    Serial1.begin(115200);
-    Serial1.setTimeout(1000);
+    SFC_SERIAL.begin(115200);
+    SFC_SERIAL.setTimeout(1000);
     while (!Serial) {
     ;  // wait for serial port to connect. Needed for native USB port only
     }
@@ -33,7 +35,7 @@ void setup() {
 
     Serial.println("\n\n\n\n\n////////////////////////////////\nHello World------------------------------------");
 
-   while(Serial1.available())Serial1.read();
+   while(SFC_SERIAL.available())SFC_SERIAL.read();
    sen.device_reset();
   Serial.print("SetValue:  ");
     sen.set(set_command_float_t::SetValue, 15.4);
@@ -84,7 +86,7 @@ measure_commands_t m[] ={
         };
 
 void loop() {
-     while(Serial1.available())Serial1.read();
+     while(SFC_SERIAL.available())SFC_SERIAL.read();
    //sen.set(set_command_float_t::wSetValue, 4);
    Serial.println("NEW");
    uint16_t error =0; 
@@ -93,27 +95,27 @@ void loop() {
     delay(2000);
     for(int i=0; i<7;i++)
     { delay(1000);
-      while(Serial1.available())Serial1.read();
+      while(SFC_SERIAL.available())SFC_SERIAL.read();
       Serial.print("loop:"); Serial.print(i);
       Serial.print(" com:");Serial.print(static_cast<uint16_t>(m[i]),HEX);
       Serial.println();
-      //Serial1.write(0x7E);
-      //Serial1.write(0x7E);
+      //SFC_SERIAL.write(0x7E);
+      //SFC_SERIAL.write(0x7E);
       for(int k=0;k<2;k++){
         error = sen.request(m[i]);
-        //Serial1.write(0x7E);
+        //SFC_SERIAL.write(0x7E);
         error_check(error);
         //if(error == 0x206) break;
         //if(error == 0) break;
         delay(400);
-        int a = Serial1.available();
+        int a = SFC_SERIAL.available();
         
         if(a>0) {Serial.print(a);break;}
       }
       Serial.print("\tr1 :");
       error = sen.read();
       error_check(error);
-      Serial.print(Serial1.available());
+      Serial.print(SFC_SERIAL.available());
       Serial.print("\tr2 :");
       error = sen.read();
       error_check(error);

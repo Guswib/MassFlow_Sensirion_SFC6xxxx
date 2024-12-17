@@ -2,9 +2,9 @@
 #include "Sensirion_SFC6xxxx.h"
 #include <SensirionCore.h>
    char errorMessage[50];
-Sensor_SFC6000 sen;
 
 #define SFC_SERIAL Serial3
+Sensor_SFC6000 sen(SFC_SERIAL);
 
 void printBuf(){
    Serial.println();

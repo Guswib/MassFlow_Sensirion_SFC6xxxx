@@ -5,8 +5,7 @@
 #include <Arduino.h>
 
 #include <SensirionCore.h>
-
-
+//set in lpm
 uint16_t Sensor_SFC6000::set(set_command_float_t command, float value){
     uint16_t com = static_cast<uint16_t> (command);
     uint8_t main_command=highByte(com);

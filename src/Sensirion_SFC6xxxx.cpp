@@ -111,15 +111,16 @@ uint16_t Sensor_SFC6000::read(uint8_t * buff, size_t maxBytes)
             //    Serial.println("Command Arrived");
         }else{
 
-        
+        //Serial.print("-----------COMMAND: ");
+        //Serial.println(last_command,HEX);
         switch (last_command){
             case _SFC_com_setpoint:
                 rxFrame.getFloat(setValue);
-            //    Serial.println("-----------SETVALUE ");
+          //      Serial.println("-----------SETVALUE ");
                 break;
             case _SFC_com_ProcessValue:
                 rxFrame.getFloat(pv);
-            //     Serial.println("-----------ProcessValueE ");
+           //      Serial.println("-----------ProcessValueE ");
             break;
             /////////////Ctrl
 
@@ -128,7 +129,7 @@ uint16_t Sensor_SFC6000::read(uint8_t * buff, size_t maxBytes)
             //    Serial.println("-----------Gain ");
                 break;
             case _SFC_com_controller_Configuration_Init_Step:
-                rxFrame.getFloat(init_step);
+            //    rxFrame.getFloat(init_step);
             //    Serial.println("-----------InitStep ");
                 break;
             /////////////Advanced_Measurement

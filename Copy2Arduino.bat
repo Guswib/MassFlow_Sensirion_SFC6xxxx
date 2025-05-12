@@ -4,6 +4,7 @@
 set Folder=MassFlow_Sensirion_SFC6xxxx
 
 echo %Folder%
+set GitHub=%UserProfile%\Documents\GitHub
 set SRCPath=%UserProfile%\Documents\GitHub\ECi\%Folder%
 set SRCPath_SRC=%SRCPath%\src
 set SRCPath_EXA=%SRCPath%\examples
@@ -35,7 +36,6 @@ copy "%SRCPath_SRC%\*.*" "%ArduinoLibPath_SRC%"
 ::copy "%SRCPath_SRC%\base\*.*" "%ArduinoLibPath_SRC%\base"
 
 
-set GitHub=%UserProfile%\Documents\GitHub
 ::@ECHO OFF
 echo /////////////////////////////////////Copy other files
 cmd /c "%GitHub%\Virtual_Instrument\Copy2Arduino.bat"

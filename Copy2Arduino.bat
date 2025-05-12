@@ -5,7 +5,7 @@ set Folder=MassFlow_Sensirion_SFC6xxxx
 
 echo %Folder%
 set GitHub=%UserProfile%\Documents\GitHub
-set SRCPath=%UserProfile%\Documents\GitHub\ECi\%Folder%
+set SRCPath=%UserProfile%\Documents\GitHub\%Folder%
 set SRCPath_SRC=%SRCPath%\src
 set SRCPath_EXA=%SRCPath%\examples
 set ArduinoLibPath=%UserProfile%\Documents\Arduino\libraries\%Folder%

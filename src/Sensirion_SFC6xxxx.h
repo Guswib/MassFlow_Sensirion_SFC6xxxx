@@ -2,15 +2,13 @@
 #ifndef _Sensor_SFC6000_H_
 #define _Sensor_SFC6000_H_
 
-
 #include <stdint.h>
 #include <Arduino.h>
 
-
 //#define _SFC_com_setpoint 0x00
 //#define _SFC_com_measuredValue 0x08
-#define _SFC_com_controller_Configuration 0x22
-#define _SFC_com_Advanced_Measurements 0x30
+#define _SFC_com_controller_Configuration               0x22
+#define _SFC_com_Advanced_Measurements                  0x30
 #define _SFC_com_Calibration_Information                0x40
 #define _SFC_com_Get_Current_Calibration_Information    0x44
 #define _SFC_com_Calibration                            0x45
@@ -21,7 +19,6 @@
 //subcommands
 #define _SFC_subCom_setpoint 0x01
 #define _SFC_subCom_getMeasuredValue 0x01
-
 
 #define _SFC_com_setpoint                                       0x0001
 #define _SFC_com_ProcessValue                                   0x0801
@@ -37,12 +34,10 @@
 
 #define _SFC_com_Current_Calibration_Information_Get_Gas_Id     0x4412
 
-
 #define _SFC_com_DeviceInfo_Product_Type                        0xD000
 #define _SFC_com_DeviceInfo_Product_Name                        0xD001
 #define _SFC_com_DeviceInfo_Article_Code                        0xD002
 #define _SFC_com_DeviceInfo_Serial_Number                       0xD003
-
 
 
 enum class measure_commands_t : uint16_t

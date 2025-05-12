@@ -31,7 +31,7 @@ echo %SRCPath%
 ::
 echo "copying: %SRCPath%lib*.*"
 copy "%SRCPath%lib*.*" "%ArduinoLibPath%"
-xcopy "%SRCPath_SRC%" "%ArduinoLibPath_SRC%" /E /Y
+copy "%SRCPath_SRC%*.*" "%ArduinoLibPath_SRC%" 
 ::copy "%SRCPath_SRC%\server\*.*" "%ArduinoLibPath_SRC%\server"
 ::copy "%SRCPath_SRC%\util\*.*" "%ArduinoLibPath_SRC%\util"
 ::copy "%SRCPath_SRC%\com\*.*" "%ArduinoLibPath_SRC%\com"

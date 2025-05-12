@@ -40,7 +40,7 @@ enum currentCalibrationInfo
 };
 
 
-Calibration Information
+//Calibration Information
 class Sensor_SFC6000x  
  { 
     

@@ -5,15 +5,15 @@
 #include <arduino.h>
 
 
-constexpr uint8_t SHDLC_start = (uint8_t)0x7E
+constexpr uint8_t SHDLC_start = (uint8_t)0x7E;
 
 
 class shdlc_bus
 {
-    //uint8_t device_address = 0;
-    stream & serCom;
+    uint8_t device_address = 0;
+    Stream & serCom;
 
-    shdlc_bus(stream & Serial_Com):
+    shdlc_bus(Stream & Serial_Com):
         serCom{Serial_Com}
         {device_address=address;};
 

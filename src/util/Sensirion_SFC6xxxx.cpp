@@ -5,7 +5,7 @@
 #include <Arduino.h>
 
 
-#include "Sensiron_SFC6xxxx.h"
+#include "Sensirion_SFC6xxxx.h"
 
 
 enum r_commands

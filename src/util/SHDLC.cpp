@@ -1,10 +1,10 @@
-#ifndef _Sensor_SHDLC_H_
-#define _Sensor_SHDLC_H_
+//ifndef _Sensor_SHDLC_H_
+//#ifdef _Sensor_SHDLC_H_
 
 #include <stdint.h>
 #include <arduino.h>
 
-#include <SHDLC.h>
+#include "SHDLC.h"
 
 
 
@@ -24,7 +24,7 @@ void shdlc_bus::push(uint8_t device_address, uint8_t command, uint16_t const TXd
         int length = checkSum_index+1;
         sercom.write(SHDL_start);
         for(int i=0; i < length;i++)
-            send_single_with_stuffing(stream & serCom, Frame[i]);
+            send_single_with_stuffing(Stream & serCom, Frame[i]);
         sercom.write(SHDL_start); 
     };
 

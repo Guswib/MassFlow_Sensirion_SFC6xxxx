@@ -2,7 +2,9 @@
 #include "Sensirion_SFC6xxxx.h"
 #include <SensirionCore.h>
    char errorMessage[50];
-Sensor_SFC6000 sen;
+
+#define SFC_SERIAL Serial3
+Sensor_SFC6000 sen(SFC_SERIAL);
 
 #define serCOM Serial3
 
@@ -19,7 +21,11 @@ void error_check(uint16_t error){
           Serial.print(error,HEX);Serial.print(": ");
           errorToString(error, errorMessage,50);
           Serial.println(errorMessage);  }
-
+          if(error == 0x052D)
+          {Serial.println("\nDevice Restrated due to error 2D.");
+            sen.device_reset();
+            sen.set(set_command_float_t::SetValue, sen.setValue);
+            }
 }
 
 void setup() {
@@ -37,16 +43,13 @@ void setup() {
     Serial.println("\n\n\n\n\n////////////////////////////////\nHello World------------------------------------");
 
    while(serCOM.available())serCOM.read();
-   sen.device_reset();
   Serial.print("SetValue:  ");
-    sen.set(set_command_float_t::SetValue, 15.4);
-     error = sen.read();
-      error = sen.read();
     printBuf();
+    delay(2000);
     // sen.read();
     //sen.read();
       Serial.print("Gain:  ");
-    sen.set(set_command_float_t::Gain, 1.523);
+    //sen.set(set_command_float_t::Gain, 1.523);
      error = sen.read();
       error = sen.read();
  printBuf();
@@ -58,23 +61,27 @@ void setup() {
     sen.pull_devInfo(deviceInfo_commands_t::Serial_Number,Serial);
 
     Serial.print("SetValue:  ");
-    sen.set(set_command_float_t::SetValue, 1.25);
+    sen.set(set_command_float_t::SetValue, 0.25);
     sen.request(measure_commands_t::SetValue);
     error = sen.read();
     Serial.print("\nSetValue:  ");
     Serial.println(sen.setValue);
-    sen.set(set_command_float_t::Gain, 2.5);
-    sen.set(set_command_float_t::Init_Step, 1.2);
+    //sen.set(set_command_float_t::Gain, 2.5);
+    //sen.set(set_command_float_t::Init_Step, 1.2);
     //sen.set(set_command_int_t::Init_Step, 1.2);
-
+    delay(1000);
+    sen.request(measure_commands_t::ProcessValue);
+    error = sen.read();
+    Serial.print("\nPV:  ");
+    Serial.println(sen.pv);
         Serial.println("\n\nDONE INI------------------------------------");
-
+  while(0);  error = sen.read();
 }
 
 measure_commands_t m[] ={
   measure_commands_t::Gain,
-  measure_commands_t::Init_Step,
-  measure_commands_t::Init_Step,
+  measure_commands_t::ProcessValue,
+  measure_commands_t::ProcessValue,
   measure_commands_t::Temperature,  
   measure_commands_t::ProcessValue,
   measure_commands_t::SetValue,
@@ -119,7 +126,7 @@ void loop() {
       Serial.print(serCOM.available());
       Serial.print("\tr2 :");
       error = sen.read();
-      error_check(error);
+      error_check(error);}
       Serial.println();
 }
     Serial.print("SV:");

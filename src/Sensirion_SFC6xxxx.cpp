@@ -5,8 +5,7 @@
 #include <Arduino.h>
 
 #include <SensirionCore.h>
-
-
+//set in lpm
 uint16_t Sensor_SFC6000::set(set_command_float_t command, float value){
     uint16_t com = static_cast<uint16_t> (command);
     uint8_t main_command=highByte(com);
@@ -20,11 +19,11 @@ uint16_t Sensor_SFC6000::set(set_command_float_t command, float value){
     txFrame.addFloat(value);
     error |= txFrame.finish();
      for(int i=0;i<20;i++){
-            Serial.print(", 0x");
-            Serial.print(txBuf[i],HEX);
+            //Serial.print(", 0x");
+            //Serial.print(txBuf[i],HEX);
             }
-             Serial.println();
-    error |= SensirionShdlcCommunication::sendFrame(txFrame, Serial1);
+            //Serial.println();
+    error |= SensirionShdlcCommunication::sendFrame(txFrame, _serCOM);
     if(error==0){
         last_command = com;
     }
@@ -44,7 +43,7 @@ uint16_t Sensor_SFC6000::set(set_command_int_t command, uint32_t value)
       {error |= txFrame.addUInt8(subcommad);}
     txFrame.addFloat(value);
     error |= txFrame.finish();
-    error |= SensirionShdlcCommunication::sendFrame(txFrame, Serial1);
+    error |= SensirionShdlcCommunication::sendFrame(txFrame, _serCOM);
 }
 
 uint16_t Sensor_SFC6000::request(measure_commands_t command){
@@ -63,12 +62,14 @@ uint16_t Sensor_SFC6000::_request(uint16_t com){
     if(subcom)
       {error |= txFrame.addUInt8(subcommand);}
     error |= txFrame.finish();
-     for(int i=0;i<20;i++){
+    /*
+    for(int i=0;i<20;i++){
             Serial.print(", 0x");
             Serial.print(txBuffer[i],HEX);
             }
              Serial.println();
-    error |= SensirionShdlcCommunication::sendFrame(txFrame, Serial1);
+    */
+    error |= SensirionShdlcCommunication::sendFrame(txFrame, _serCOM);
     if(error==0){
         last_command = com;
         last_subcommand = subcommand;
@@ -81,7 +82,7 @@ uint16_t Sensor_SFC6000::read(uint8_t * buff, size_t maxBytes)
     uint8_t rxBuffer2[50];
     uint16_t error =0;
     SensirionShdlcRxFrame rxFrame(rxBuffer2, 50);
-    error = SensirionShdlcCommunication::receiveFrame(rxFrame, Serial1, 1000000);
+    error = SensirionShdlcCommunication::receiveFrame(rxFrame, _serCOM, 1000000);
     
     //Serial.print("READ-----------state:");
     //        Serial.print(rxFrame.getState(),HEX);
@@ -105,42 +106,44 @@ uint16_t Sensor_SFC6000::read(uint8_t * buff, size_t maxBytes)
         if(rxFrame.getDataLength()==0){
             uint8_t main_command=highByte(last_command);
             if(rxFrame.getCommand() == main_command)
-                Serial.println("Command Arrived");
+            ;
+            //    Serial.println("Command Arrived");
         }else{
 
-        
+        //Serial.print("-----------COMMAND: ");
+        //Serial.println(last_command,HEX);
         switch (last_command){
             case _SFC_com_setpoint:
                 rxFrame.getFloat(setValue);
-                Serial.println("-----------SETVALUE ");
+          //      Serial.println("-----------SETVALUE ");
                 break;
             case _SFC_com_ProcessValue:
                 rxFrame.getFloat(pv);
-                 Serial.println("-----------ProcessValueE ");
+           //      Serial.println("-----------ProcessValueE ");
             break;
             /////////////Ctrl
 
             case _SFC_com_controller_Configuration_GAIN:
                 rxFrame.getFloat(gain);
-                Serial.println("-----------Gain ");
+            //    Serial.println("-----------Gain ");
                 break;
             case _SFC_com_controller_Configuration_Init_Step:
-                rxFrame.getFloat(init_step);
-                Serial.println("-----------InitStep ");
+            //    rxFrame.getFloat(init_step);
+            //    Serial.println("-----------InitStep ");
                 break;
             /////////////Advanced_Measurement
 
             case _SFC_com_Advanced_Measurements_Raw_Flow:
                 rxFrame.getUInt16(raw_flow);
-                Serial.println("-----------RawFlow ");
+            //    Serial.println("-----------RawFlow ");
                 break;
             case _SFC_com_Advanced_Measurements_Raw_Thermal_Conductivity:
                 rxFrame.getUInt16(raw_thermal_conductivity);
-                 Serial.print("-----------RawThermalConductivity ");Serial.println(raw_thermal_conductivity);
+            //    Serial.print("-----------RawThermalConductivity ");Serial.println(raw_thermal_conductivity);
                 break;
             case _SFC_com_Advanced_Measurements_Temperature:
                 rxFrame.getFloat(temperature);
-                Serial.print("-----------TEMP ");Serial.println(temperature);
+            //    Serial.print("-----------TEMP ");Serial.println(temperature);
                 break;
 
             case _SFC_com_DeviceInfo_Product_Type:

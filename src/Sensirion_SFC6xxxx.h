@@ -91,13 +91,16 @@ class Sensor_SFC6000
     uint8_t last_subcommand=0;
     uint16_t raw_flow=0;
     uint16_t raw_thermal_conductivity=0;
-    //Sensor_SFC6000();
+    Stream & _serCOM;
+    Sensor_SFC6000(Stream & serialPort):_serCOM( serialPort){;};
     uint16_t request(measure_commands_t command);
     uint16_t read (uint8_t * buff = nullptr, size_t maxBytes = 0);
     uint16_t set(set_command_float_t command, float value);
     uint16_t set(set_command_int_t command, uint32_t value);
     uint16_t device_reset();
-    
+    begin(){ ;
+      //_serCOM.begin(115200);  
+    };
 
     uint16_t pull_devInfo(deviceInfo_commands_t command, Stream & serCom);
 
